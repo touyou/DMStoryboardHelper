@@ -25,11 +25,20 @@ struct StoryboardHelper {
 
         /// Switch Storyboard
         /// ref: https://qiita.com/tomohisaota/items/f8857d01f328e34fb551
+
         switch (devices, height) {
+        case (_, 812):
+            // iPhone X, XS
+            storyboard = UIStoryboard(name: "5.8inch", bundle: nil)
+        case (_, 896):
+            // iPhone XR, XS Max
+            storyboard = UIStoryboard(name: "6.5inch", bundle: nil)
+        case (_, 568):
+            // iPhone 5, 5s, 5c, SE
+            storyboard = UIStoryboard(name: "Main", bundle: nil)
         case (_, 667),
-             (_, 736),
-             (_, 812):
-            // iPhone 6, 6s, 6+, 7, 7s, 7+, 8, X
+             (_, 736):
+            // iPhone 6, 6s, 6+, 7, 7s, 7+, 8, 8+
             storyboard = UIStoryboard(name: "Main", bundle: nil)
         case (_, 480),
              (.iPhone, 1024),
@@ -43,7 +52,7 @@ struct StoryboardHelper {
             // iPad, Air, mini, Pro
             storyboard = UIStoryboard(name: "9.7inch", bundle: nil)
         default:
-            // iPhone 5, 5s, 5c, SE
+            // Other
             storyboard = UIStoryboard(name: "Main", bundle: nil)
         }
         

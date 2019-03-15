@@ -17,17 +17,18 @@ StoryboardHelperは、iOSアプリ開発初心者が各端末への画面サイ�
 
 5. StoryboardHelperをXcodeの左側のフォルダ部分にドラッグ&ドロップでコピーします。
 6. そのとき、Destinationにチェックが入っていること、Refereneの選択が上の方を選んでいること、Targetにチェックが入っていることに気をつけましょう。
-7. この時点でiPhone5/5S/6/6Plus/6s/6sPlus/7/7Plusへの対応は完了です。
+7. 先程消したLaunchScreenの上のLaunch Images SourceのUse Asset Catalog...をクリックしLaunchScreenを選択してください。もし赤文字になった場合はもう一度クリックしLaunchImageをしましょう。
+8. この時点でiPhone5/5S/6/6Plus/6s/6sPlus/7/7Plusへの対応は完了です。
 
 ## ②3.5インチ端末(iPhone4S以下)とiPadへの対応
 1. `AppDelegate.swift`を開きます。
-2. `application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool { ... }` メソッド内に以下のプログラムを書きます。
+2. `application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool { ... }` メソッド内に以下のプログラムを書きます。なおdevicesにはXcodeの対応デバイスの設定に合わせて`.universal`,`.iPhone`,`.iPad`のいずれかを選択してください。
 ```swift
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-// Override point for customization after application launch.
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     /* ここから */
-    StoryboardHelper.adjust(to: window)
+    StoryboardHelper.adjust(to: window, devices: .universal)
     /* ここまで */
+
     return true
 }
 ```
@@ -36,3 +37,17 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 5. 3.5inchの方の`initialViewController`のチェックが外れているので、チェックを入れます。
 6. 3.5inchの方のデザインを整えます。
 7. Runしてうまくいけば完成です。
+
+## iPhone X, XS, XR, XS Maxへの対応
+
+こちらは5.8inch.storyboardという名前でiPhone XS向けレイアウトを、6.5inch.storyboardという名前でiPhoneXR向けレイアウトを同様に作成することで対応できます。
+
+## LunchScreenを設定したい人、または上級者向けカスタマイズ方法
+
+- LaunchScreenを自分のオリジナルにしたい人はDMStoryboardHelperのDefaultsの中のLaunchScreen.xcassetsに入っている画像を同解像度の使いたい画像に置き換えてください
+- iOSの仕様上、LaunchScreen.xcassetsで設定されているデバイスはその比率で、設定されていないものはそれよりも小さい解像度でもっとも近いものが拡大されて表示されるようになっています。このヘルパーの初期状態ではiPhone 8やiPhone 8 PlusのLaunchScreenを空にしているためこれらのサイズの端末ではiPhone SE向けのデザインが拡大表示されています。それが嫌な場合は同梱されている画像該当の部分に設定して、StoryboardHelperの該当デバイスの部分で別のStoryboardを読み込むように書き直してください。
+- 逆にStoryboardの数をへらすことも同様の原理でできます。その場合iPhone X, XS, XR, XS Maxに関しては上部と下部に大きく黒い余白が取られることになるので注意してください。
+
+## iPad 12.9 3rd genに関して
+
+こちらは外側に小さく黒い余白ができるようになっています。これは現状の仕様だとうめられないようです。あらかじめご了承ください。
